@@ -26,7 +26,7 @@ public class JsonFileReader {
 			br = new BufferedReader(fr);
 			
 			while((line = br.readLine()) !=null ) {
-				jsonText += line +"\n";
+				jsonText += line +"\n";//reads each line and adds to next line on string
 				searchForKeyTerms(line);
 			}
 		} catch (Exception e) {
@@ -39,7 +39,7 @@ public class JsonFileReader {
 			}
 		}
 		
-		return jsonText;
+		return jsonText; //returns string of the json file
 	}
 	
 	public Map<String, Integer> jsonFileToMap(String filePath) {
@@ -47,16 +47,16 @@ public class JsonFileReader {
 		try {
 			
 			JSONParser parser = new JSONParser();
-            Object object = parser.parse(jsonTxt);
-            JSONObject mainJsonObject = (JSONObject) object;
+            Object object = parser.parse(jsonTxt); //parses txt into an object
+            JSONObject mainJsonObject = (JSONObject) object; //creates json object
             
             for(String key: keyTerms.keySet()) {
             	
-            	if(mainJsonObject.get(key) instanceof JSONArray) {
+            	if(mainJsonObject.get(key) instanceof JSONArray) { //if object is an array
             		JSONArray array = (JSONArray) mainJsonObject.get(key);
-                	keyTerms.put(key,array.size());
-            	} else if (mainJsonObject.get(key) instanceof JSONObject) {
-            		keyTerms.put(key, keyTerms.get(key)+1);
+                	keyTerms.put(key,array.size());//add term and amount to map
+            	} else if (mainJsonObject.get(key) instanceof JSONObject) { //if object is an object
+            		keyTerms.put(key, keyTerms.get(key)+1);//add term and amount to map
             		
             	}
             }
@@ -64,7 +64,7 @@ public class JsonFileReader {
 		} catch(Exception e) {
             e.printStackTrace();
         }
-		return keyTerms;
+		return keyTerms; //return map
 		
 	}
 	
@@ -76,11 +76,11 @@ public class JsonFileReader {
 	    for (int i = 0, j = 0; j <= line.length(); j++) { //loop through line
 	        char ch = j == line.length() ? '\0' : line.charAt(j);
 	        if (j == line.length() || !Character.isLetter(ch) ) {
-	        	word = line.substring(i, j);
-	        	word = word.replace("\"", "");
-	        	word = word.trim();
+	        	word = line.substring(i, j);//gets each word in string line
+	        	word = word.replace("\"", "");//removes "" from word
+	        	word = word.trim();//gets rid of empty space
 	            if (!word.isEmpty() && words.contains(word)) {
-	            	keyTerms.put(word,0);
+	            	keyTerms.put(word,0); //if word is present add to map
 	            }
 	        	
 	        }
@@ -89,7 +89,7 @@ public class JsonFileReader {
 	}
 	
 	public Map<String, Integer> getMap() {
-		return keyTerms;
+		return keyTerms; //returns map
 	}
 
 }
